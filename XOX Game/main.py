@@ -8,9 +8,11 @@ timetra=int(0)
 result=False
 def fnstart(case):
     global timetra
+    global result
     timer = builder.get_object("timer")
     stop_flag = False
-    
+    if result:
+    	resetfn(0)
     
     def update():
         global timetra
