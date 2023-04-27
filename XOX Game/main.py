@@ -12,9 +12,7 @@ while len(image_data) % 4 != 0:
 # Decode the Base64 string
 decoded_data = base64.b64decode(image_data)
 
-# Write the decoded data to a PNG file
-with open("image.png", "wb") as f:
-    f.write(decoded_data)
+
 # Using image loader
 loader = GdkPixbuf.PixbufLoader.new()
 loader.write(decoded_data)
