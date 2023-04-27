@@ -1,7 +1,259 @@
 """ This GUI program ia multiplayer xox game """
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk,GLib
+from gi.repository import Gtk,GdkPixbuf,GLib
+import base64
+image_data = "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"
+
+# Add padding characters until the length is a multiple of 4
+while len(image_data) % 4 != 0:
+    image_data += "="
+
+# Decode the Base64 string
+decoded_data = base64.b64decode(image_data)
+
+# Write the decoded data to a PNG file
+with open("image.png", "wb") as f:
+    f.write(decoded_data)
+# Using image loader
+loader = GdkPixbuf.PixbufLoader.new()
+loader.write(decoded_data)
+loader.close()
+pixbuf = loader.get_pixbuf()
+
+xml="""<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkWindow" id="window">
+    <property name="can-focus">False</property>
+    <property name="resizable">False</property>
+    <property name="default-width">260</property>
+    <property name="default-height">400</property>
+    <child>
+      <object class="GtkFixed">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkButton" id="b12">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="use-underline">True</property>
+            <signal name="clicked" handler="b12" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">100</property>
+            <property name="y">20</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="b13">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="b13" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">180</property>
+            <property name="y">20</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="b11">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="b11" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">20</property>
+            <property name="y">20</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="b21">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="b21" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">20</property>
+            <property name="y">100</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="b22">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="b22" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">100</property>
+            <property name="y">100</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="b23">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="b23" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">180</property>
+            <property name="y">100</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="b31">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="b31" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">20</property>
+            <property name="y">180</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="b32">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="b32" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">100</property>
+            <property name="y">180</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="b33">
+            <property name="width-request">60</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="b33" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">180</property>
+            <property name="y">180</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="slider">
+            <property name="width-request">100</property>
+            <property name="height-request">60</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+          </object>
+          <packing>
+            <property name="x">77</property>
+            <property name="y">257</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width-request">200</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">O            X</property>
+            <attributes>
+              <attribute name="weight" value="normal"/>
+              <attribute name="scale" value="3"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">28</property>
+            <property name="y">247</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="status">
+            <property name="width-request">100</property>
+            <property name="height-request">35</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+              <attribute name="foreground" value="#08a6ffff0000"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">80</property>
+            <property name="y">325</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="reset">
+            <property name="label" translatable="yes">Reset</property>
+            <property name="width-request">50</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="reset" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">160</property>
+            <property name="y">360</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="start">
+            <property name="label" translatable="yes">start</property>
+            <property name="width-request">50</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="start" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">30</property>
+            <property name="y">360</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="timer">
+            <property name="width-request">50</property>
+            <property name="height-request">35</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">0:00</property>
+          </object>
+          <packing>
+            <property name="x">37</property>
+            <property name="y">325</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
+"""
 global result
 global timetra
 timetra=int(0)
@@ -164,7 +416,7 @@ def check(mat2d):
     return result,winner
 
 builder = Gtk.Builder()
-builder.add_from_file("gui.glade")
+builder.add_from_string(xml)
 b11= builder.get_object("b11")
 b12= builder.get_object("b12")
 b13= builder.get_object("b13")
@@ -190,7 +442,7 @@ builder.connect_signals({"b11": lambda widget: on_button_clicked(widget, "b11"),
 window = builder.get_object("window")
 window.set_title("XOX Game")
 window.set_position(Gtk.WindowPosition.CENTER)
-window.set_icon_from_file("spic.png")
+window.set_icon(pixbuf)
 window.connect("delete-event", Gtk.main_quit)
 window.show_all()
 Gtk.main()
