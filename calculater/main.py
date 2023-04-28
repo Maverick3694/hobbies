@@ -444,16 +444,6 @@ def check():
     
     
 
-
-
-
-
-
-
-
-
-
-
 def on_button_clicked(widget, button_id):
     global datalis
     if button_id!="back":
@@ -466,11 +456,6 @@ def on_button_clicked(widget, button_id):
     if button_id=="delete":
         datalis.clear()
         builder.get_object("display").set_property("text", "")
-
-
-
-
-
 
 
 builder = Gtk.Builder()
