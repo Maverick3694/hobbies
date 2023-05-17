@@ -7,14 +7,14 @@ def color_alternating_rows(val):
             i=0
             b=True
             while(i<len(val)):
-                if val[i]=="<" and val[i+1]=="t" and val[i+2]=="r": 
+                if val[i:i+3]=="<tr": 
                     if b==True:
                         color="#EEEEEE"
                         b=False 
                     else:
                         color="#FFFFFF"
                         b=True                  
-                    temp=temp+"<tr"+" "+'style="background-color:'+color+'"'+" "
+                    temp=temp+"<tr"+" "+'style="background-color:'+color+'"'
                     i=i+3             
                 else:
                     temp=temp+val[i]
@@ -25,4 +25,4 @@ def color_alternating_rows(val):
 df = pd.DataFrame({'Name': ['John', 'Jane', 'Alice'],
         'Age': [25, 30, 28],
         'City': ['New York', 'Paris', 'London']})
-color_alternating_rows(df.to_html(index=False))
+print(color_alternating_rows(df.to_html(index=False)))
